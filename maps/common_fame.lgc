@@ -16,6 +16,7 @@ DrawFame()
 	int j2 = 0;
 	int j3 = 0;
 	int i;
+	int FAME_OFFSET = 130;
 	for(i = 0; i < cnt; i++)
 	{
 		int type = Call_i(EXT_GetRecRank, i);
@@ -49,11 +50,11 @@ DrawFame()
 		}
 		if(sX != -1 && sY != -1)
 		{
-	       	CreateText(font, sX, sY, 0, str);
-    	   	CreateText(font, sX+155, sY, 0, itoa(score));
+	       	CreateText(font, sX + FAME_OFFSET, sY, 0, str);
+    	   	CreateText(font, sX+155 + FAME_OFFSET, sY, 0, itoa(score));
     	   	if(bLast)
     	   	{
-    	   		CreateSprite(930, sX - 8 + GetVidData(930, VID_SIZE_X)/2, sY+6+1000, 1000);
+    	   		CreateSprite(930, sX - 8 + GetVidData(930, VID_SIZE_X)/2 + FAME_OFFSET, sY+6+1000, 1000);
     	   	}
 		}
 	}
