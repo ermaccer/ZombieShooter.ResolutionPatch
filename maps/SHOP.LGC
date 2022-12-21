@@ -341,9 +341,7 @@ CreateHeroSprite()
 {
 	int HERO_Z = 0;
 	int HERO_DIR = 100;
-	int HERO_OFFSET_X = 325;
-	int HERO_OFFSET_Y = 205;
-	giHeroSpr = CreateSprite(9, -ToScreenX(0) + HERO_OFFSET_X, -ToScreenY(0) + HERO_OFFSET_Y + HERO_Z, HERO_Z);
+	giHeroSpr = CreateSprite(9, -ToScreenX(0) + 195, -ToScreenY(0) + 230 + HERO_Z, HERO_Z);
 	if(giHeroSpr)
 	{
 		Action(giHeroSpr, ACT_CHANGE_DIRECTION, HERO_DIR);
@@ -502,7 +500,7 @@ main()
 				int indX = 2;
 				if(ToScreenX(GetX(i)) <= 750)
 					indX = 1;
-				if(ToScreenX(GetX(i)) <= 6	)
+				if(ToScreenX(GetX(i)) <= 638)
 					indX = 0;
 				//
 				int indY = 2;
