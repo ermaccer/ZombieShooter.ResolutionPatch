@@ -1,5 +1,15 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
-#include "pch.h"
+#include "framework.h"
+#include "utils/MemoryMgr.h"
+#include "helper/PatternHelper.h"
+
+#include "game.h"
+
+using namespace Memory::VP;
+void Init()
+{
+    InjectHook(_pat("8B 81 00 02 00 00"), &CGame::IsValidResolutionSet, PATCH_JUMP);
+}
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -9,6 +19,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
+        Init();
+        break;
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
