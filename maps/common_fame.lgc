@@ -1,0 +1,85 @@
+//#define MAX_RECORD 5 //максимальное количество результатов в таблице рекордов
+
+
+//------------------------------------------------------------------------------------------
+DrawFame()
+{
+	MenuLoad("maps\\highscores.men");
+	Genocide(930);
+	//
+	int iLastType = GetGlobValI("NewRecordType", -1);
+	int iLastScores = GetGlobValI("NewRecord", -999);
+	SetGlobValI("NewRecord", -999);
+	//
+	int cnt = Call_v(EXT_GetRecCnt);
+	int j1 = 0;
+	int j2 = 0;
+	int j3 = 0;
+	int i;
+	for(i = 0; i < cnt; i++)
+	{
+		int type = Call_i(EXT_GetRecRank, i);
+		int score = Call_i(EXT_GetRecScore, i);
+		string str = Call_i(EXT_GetRecName, i);
+		//
+		int font = 4;
+		bool bLast = false;
+		if(iLastType == type && iLastScores == score)
+			bLast = true;
+		//
+		int sX = -1;
+		int sY = -1;
+		if(type == 0 && j1 < 10)
+		{
+        	sX = 220+2;
+        	sY = 252+j1*30;
+        	j1++;
+		}
+		if(type == 1 && j2 < 5)
+		{
+        	sX = 530;
+        	sY = 252+j2*30;
+        	j2++;
+		}
+		if(type == 2 && j3 < 5)
+		{
+        	sX = 530;
+        	sY = 410+j3*30;
+        	j3++;
+		}
+		if(sX != -1 && sY != -1)
+		{
+	       	CreateText(font, sX, sY, 0, str);
+    	   	CreateText(font, sX+155, sY, 0, itoa(score));
+    	   	if(bLast)
+    	   	{
+    	   		CreateSprite(930, sX - 8 + GetVidData(930, VID_SIZE_X)/2, sY+6+1000, 1000);
+    	   	}
+		}
+	}
+}
+
+
+//------------------------------------------------------------------------------------------
+SaveFame()
+{
+	//только один раз за карту сохраняем
+	static bool bWasHere = false;
+	if(bWasHere)
+		return;
+	bWasHere = true;
+	//
+	int curUser = Call_v(EXT_GetCurUserG);
+	//
+	int type = 0;
+#ifdef SURVIVE_MAP
+	type = 1;
+#endif
+#ifdef NEW_SURVIVE
+	type = 2;
+#endif
+	int LastRecPos = Call_sii(EXT_AddRecord, Call_i(EXT_GetUsrNameG, curUser), PlayerScores, type);
+	SetGlobValI("NewRecord", PlayerScores);
+	SetGlobValI("NewRecordType", type);
+}
+
